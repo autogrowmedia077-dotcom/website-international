@@ -5,45 +5,45 @@ import { useState, useEffect } from "react";
 
 const testimonials = [
   {
-    name: "Rajesh Kumar",
+    name: "James Carter",
     role: "Ex-Software Engineer, Now Full-Time Creator",
-    location: "Mumbai",
-    initials: "RK",
+    location: "Austin, TX",
+    initials: "JC",
     gradient: "from-purple-400 to-blue-400",
-    revenue: "₹2.3L/month",
+    revenue: "$3,200/month",
     timeframe: "4 months",
-    content: "I was skeptical at first, but this system helped me quit my ₹8L/year job. Now I'm making ₹2.3 lakh per month with automated content across 5 platforms. The ROI? Over 4000% in 4 months."
+    content: "I was skeptical at first, but this system helped me quit my $60k/year job. Now I'm making $3,200 per month with automated content across 5 platforms. The ROI? Over 4000% in 4 months."
   },
   {
-    name: "Priya Sharma",
-    role: "Former Marketing Executive", 
-    location: "Bangalore",
-    initials: "PS",
+    name: "Sarah Mills",
+    role: "Former Marketing Executive",
+    location: "New York, NY",
+    initials: "SM",
     gradient: "from-green-400 to-blue-400",
-    revenue: "₹1.8L/month",
+    revenue: "$2,800/month",
     timeframe: "3 months",
-    content: "I went from posting manually 2-3 times a week to having content posted 4x daily across Instagram, YouTube, and LinkedIn. Revenue jumped from ₹15K to ₹1.8L per month. The automation handles everything while I focus on high-value activities."
+    content: "I went from posting manually 2-3 times a week to having content posted 4x daily across Instagram, YouTube, and LinkedIn. Revenue jumped from $500 to $2,800 per month. The automation handles everything while I focus on high-value activities."
   },
   {
-    name: "Ankit Mehta",
+    name: "Michael Chen",
     role: "College Student turned Entrepreneur",
-    location: "Delhi",
-    initials: "AM", 
+    location: "San Francisco, CA",
+    initials: "MC",
     gradient: "from-pink-400 to-purple-400",
-    revenue: "₹95K/month",
+    revenue: "$1,500/month",
     timeframe: "2 months",
-    content: "As a college student, I had no business experience. This system grew my YouTube from 800 to 47K subscribers and Instagram to 25K followers. Now I'm making ₹95K/month - more than most graduates earn in their first job."
+    content: "As a college student, I had no business experience. This system grew my YouTube from 800 to 47K subscribers and Instagram to 25K followers. Now I'm making $1,500/month - more than most graduates earn in their first job."
   },
   {
-    name: "Meera Patel",
+    name: "Jessica Davis",
     role: "Stay-at-Home Mom",
-    location: "Ahmedabad",
-    initials: "MP", 
+    location: "Chicago, IL",
+    initials: "JD",
     gradient: "from-orange-400 to-red-400",
-    revenue: "₹1.2L/month",
+    revenue: "$2,100/month",
     timeframe: "5 months",
-    content: "I started this while managing two kids at home. The automation gave me my time back while growing my audience to 35K+ across platforms. I'm now earning ₹1.2L monthly selling digital products - all while being present for my family."
-  }
+    content: "I started this while managing two kids at home. The automation gave me my time back while growing my audience to 35K+ across platforms. I'm now earning $2,100 monthly selling digital products - all while being present for my family."
+  },
 ];
 
 export default function TestimonialSlider() {
@@ -58,7 +58,7 @@ export default function TestimonialSlider() {
   }, []);
 
   const goToPrevious = () => {
-    setCurrentIndex((prevIndex) => 
+    setCurrentIndex((prevIndex) =>
       prevIndex === 0 ? testimonials.length - 1 : prevIndex - 1
     );
   };
@@ -99,14 +99,14 @@ export default function TestimonialSlider() {
                       <div className="text-xs sm:text-sm text-muted-foreground">{testimonials[currentIndex].location}</div>
                     </div>
                   </div>
-                  
+
                   {/* Revenue - mobile centered */}
                   <div className="text-center sm:text-right">
                     <div className="text-xl sm:text-3xl font-bold text-green-400">{testimonials[currentIndex].revenue}</div>
                     <div className="text-sm sm:text-base text-muted-foreground">in {testimonials[currentIndex].timeframe}</div>
                   </div>
                 </div>
-                
+
                 {/* Rating - mobile centered */}
                 <div className="flex items-center justify-center sm:justify-start mb-4">
                   <div className="flex items-center space-x-1">
@@ -116,12 +116,12 @@ export default function TestimonialSlider() {
                   </div>
                   <span className="ml-2 text-xs sm:text-base text-muted-foreground font-medium">Verified</span>
                 </div>
-                
+
                 {/* Testimonial content - mobile optimized */}
                 <blockquote className="text-sm sm:text-lg text-muted-foreground leading-relaxed mb-6 text-center sm:text-left">
                   "{testimonials[currentIndex].content}"
                 </blockquote>
-                
+
                 {/* Verification badge - mobile centered */}
                 <div className="pt-4 border-t border-border">
                   <div className="flex items-center justify-center sm:justify-start text-xs sm:text-base text-green-400 font-semibold">
@@ -144,23 +144,22 @@ export default function TestimonialSlider() {
         >
           <ChevronLeft className="w-4 h-4 sm:w-5 sm:h-5" />
         </button>
-        
+
         {/* Dots indicator - mobile optimized */}
         <div className="flex space-x-1.5 sm:space-x-2">
           {testimonials.map((_, index) => (
             <button
               key={index}
               onClick={() => goToSlide(index)}
-              className={`w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full transition-all touch-manipulation ${
-                index === currentIndex 
-                  ? 'bg-green-400 scale-125' 
+              className={`w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full transition-all touch-manipulation ${index === currentIndex
+                  ? 'bg-green-400 scale-125'
                   : 'bg-white/30 hover:bg-white/50'
-              }`}
+                }`}
               aria-label={`Go to testimonial ${index + 1}`}
             />
           ))}
         </div>
-        
+
         <button
           onClick={goToNext}
           className="p-2 sm:p-3 rounded-full bg-white/10 hover:bg-white/20 transition-colors touch-manipulation"

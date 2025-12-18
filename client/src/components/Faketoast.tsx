@@ -20,7 +20,7 @@ export default function FakeToast() {
   } | null>(null);
 
   useEffect(() => {
-    let timeout: NodeJS.Timeout;
+    let timeout: ReturnType<typeof setTimeout>;
 
     const showToast = () => {
       const randomBuyer = buyers[Math.floor(Math.random() * buyers.length)];
@@ -58,7 +58,7 @@ export default function FakeToast() {
             <div className="flex flex-col">
               <p className="text-sm font-semibold">
                 <span className="text-gradient font-bold">{toast.name}</span> from {toast.city} just purchased{" "}
-                <span className="text-purple-400 font-bold">Starter Pack</span> for <span className="text-green-400 font-bold">₹399</span>.
+                <span className="text-purple-400 font-bold">Starter Pack</span> for <span className="text-green-400 font-bold">$15</span>.
               </p>
               <p className="text-gray-400 text-xs mt-1">{toast.timeAgo}</p>
             </div>

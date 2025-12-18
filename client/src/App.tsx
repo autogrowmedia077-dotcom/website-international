@@ -10,6 +10,7 @@ import PrivacyPolicy from "./pages/PrivacyPolicy";
 import ReturnsPolicy from "./pages/ReturnsPolicy";
 import Terms from "./pages/Terms";
 import PaymentConfirmation from "./pages/PaymentConfirmation";
+import PaymentFailure from "./pages/PaymentFailure";
 
 function Router() {
   return (
@@ -20,6 +21,8 @@ function Router() {
       <Route path="/returns" component={ReturnsPolicy} />
       <Route path="/terms" component={Terms} />
       <Route path="/payment-confirmation" component={PaymentConfirmation} />
+      <Route path="/checkout/success" component={PaymentConfirmation} />
+      <Route path="/checkout/failure" component={PaymentFailure} />
       <Route component={Landing} />
     </Switch>
   );

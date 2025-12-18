@@ -19,7 +19,7 @@ const TermsAndConditions: React.FC = () => {
             <p>
               Welcome to <strong>PinnaclePlus</strong>, a digital automation and
               business growth platform operated by{" "}
-              <strong>Gadget Glitz</strong> (“we”, “our”, “us”).  
+              <strong>Gadget Glitz</strong> (“we”, “our”, “us”).
               These Terms & Conditions govern your access to and use of our
               website, tools, and services (collectively, the “Service”).
             </p>
@@ -156,8 +156,8 @@ const TermsAndConditions: React.FC = () => {
               11. Governing Law
             </h2>
             <p>
-              These Terms are governed by the laws of India. Any disputes will
-              be handled in the courts located in Jabalpur, Madhya Pradesh.
+              These Terms are governed by the laws of the United States. Any disputes will
+              be handled in the courts located in the United States.
             </p>
           </section>
 
@@ -166,11 +166,11 @@ const TermsAndConditions: React.FC = () => {
               12. Contact Us
             </h2>
             <p>
-              For questions about these Terms, please contact us at:  
+              For questions about these Terms, please contact us at:
               <br />
-              <strong>Email:</strong> support@pinnacleplus.in  
+              <strong>Email:</strong> support@pinnacleplus.in
               <br />
-              <strong>Business Address:</strong> 31, Indra Market, Jabalpur, Madhya Pradesh, 482001
+              <strong>Business Address:</strong> 123 Business Lane, Suite 100, San Francisco, CA 94105, United States
             </p>
           </section>
         </div>

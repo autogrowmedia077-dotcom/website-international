@@ -3,18 +3,18 @@ import { Button } from "@/components/ui/button";
 import FakeToast from "@/components/Faketoast";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { 
-  Zap, 
-  Shield, 
-  Infinity, 
-  Bot, 
-  Target, 
-  TrendingUp, 
-  Headphones, 
-  DollarSign, 
-  Instagram, 
-  ShieldCheck, 
-  Layers, 
+import {
+  Zap,
+  Shield,
+  Infinity,
+  Bot,
+  Target,
+  TrendingUp,
+  Headphones,
+  DollarSign,
+  Instagram,
+  ShieldCheck,
+  Layers,
   Rocket,
   Check,
   Star,
@@ -28,10 +28,11 @@ import CountdownTimer from "@/components/countdown-timer";
 import TestimonialSlider from "@/components/testimonial-slider";
 import FaqSection from "@/components/faq-section";
 import { useState, useEffect } from "react";
-import { load } from "@cashfreepayments/cashfree-js";
+import { Link } from "wouter";
+import { DodoPayments } from "dodopayments-checkout";
 export default function Landing() {
   const [isScrolled, setIsScrolled] = useState(false);
-const [cashfree, setCashfree] = useState<any>(null);
+
   useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 100);
@@ -39,25 +40,50 @@ const [cashfree, setCashfree] = useState<any>(null);
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
- useEffect(() => {
-  const initializeSDK = async () => {
-    const cf = await load({ mode: "production" }); // "sandbox" for testing
-    setCashfree(cf);
-  };
-  initializeSDK();
-}, []);
+  useEffect(() => {
+    DodoPayments.Initialize({
+      mode: "live", // Change to 'live' for production
+      onEvent: (event) => {
+        console.log("Checkout event:", event);
+      },
+    });
+  }, []);
   const scrollToSection = (sectionId: string) => {
     const element = document.getElementById(sectionId);
     if (element) {
       element.scrollIntoView({ behavior: 'smooth' });
     }
   };
-const handlePayment = () => {
-  // Open the hosted Cashfree payment page
-  window.location.href = "https://payments.cashfree.com/forms/pinnacleplus";
-};
+  const handlePayment = async () => {
+    try {
+      // Call the backend worker to create a checkout session
+      const response = await fetch("https://lingering-grass-6331.auto-grow-media077.workers.dev/create-checkout", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          product_id: "pdt_0NULBAHTJCKPrn5nqRime", // Using the product ID from previous attempts
+          quantity: 1,
+        }),
+      });
 
-  
+      if (!response.ok) {
+        throw new Error("Failed to create checkout session");
+      }
+
+      const { checkoutUrl } = await response.json();
+
+      // Open Dodo Payments Overlay with the dynamic session URL
+      await DodoPayments.Checkout.open({
+        checkoutUrl: checkoutUrl,
+      });
+    } catch (error) {
+      console.error("Payment error:", error);
+    }
+  };
+
+
   const features = [
     {
       icon: Bot,
@@ -109,10 +135,9 @@ const handlePayment = () => {
   return (
     <div className="min-h-screen bg-background text-foreground">
       {/* Sticky Navigation */}
-      <motion.nav 
-        className={`fixed top-0 w-full z-50 glass border-b border-border transition-all duration-300 ${
-          isScrolled ? 'bg-black/95' : ''
-        }`}
+      <motion.nav
+        className={`fixed top-0 w-full z-50 glass border-b border-border transition-all duration-300 ${isScrolled ? 'bg-black/95' : ''
+          }`}
         initial={{ y: -100 }}
         animate={{ y: 0 }}
         transition={{ duration: 0.5 }}
@@ -123,36 +148,36 @@ const handlePayment = () => {
               <div className="text-xl font-bold text-gradient" data-testid="logo">PinnaclePlus</div>
             </div>
             <div className="hidden md:flex items-center space-x-8">
-              <button 
-                onClick={() => scrollToSection('features')} 
+              <button
+                onClick={() => scrollToSection('features')}
                 className="text-muted-foreground hover:text-foreground transition-colors"
                 data-testid="nav-features"
               >
                 Features
               </button>
-              <button 
-                onClick={() => scrollToSection('pricing')} 
+              <button
+                onClick={() => scrollToSection('pricing')}
                 className="text-muted-foreground hover:text-foreground transition-colors"
                 data-testid="nav-pricing"
               >
                 Pricing
               </button>
-              <button 
-                onClick={() => scrollToSection('testimonials')} 
+              <button
+                onClick={() => scrollToSection('testimonials')}
                 className="text-muted-foreground hover:text-foreground transition-colors"
                 data-testid="nav-testimonials"
               >
                 Reviews
               </button>
-              <button 
-                onClick={() => scrollToSection('faq')} 
+              <button
+                onClick={() => scrollToSection('faq')}
                 className="text-muted-foreground hover:text-foreground transition-colors"
                 data-testid="nav-faq"
               >
                 FAQ
               </button>
             </div>
-            
+
           </div>
         </div>
       </motion.nav>
@@ -162,7 +187,7 @@ const handlePayment = () => {
         <div className="absolute inset-0 bg-gradient-to-br from-purple-900/20 via-transparent to-blue-900/20"></div>
         <div className="max-w-7xl mx-auto text-center relative z-10">
           {/* Animated Discount Badge */}
-          <motion.div 
+          <motion.div
             className="inline-flex items-center space-x-2 glass-card px-4 py-2 rounded-full mb-8"
             initial={{ opacity: 0, scale: 0.8 }}
             animate={{ opacity: 1, scale: 1 }}
@@ -170,11 +195,11 @@ const handlePayment = () => {
             data-testid="discount-badge"
           >
             <Zap className="w-4 h-4 text-yellow-400" />
-            <span className="text-sm font-semibold text-yellow-400">87% OFF - LIMITED TIME ONLY</span>
+            <span className="text-sm font-semibold text-yellow-400">40% OFF - LIMITED TIME ONLY</span>
           </motion.div>
 
           {/* Trust Indicators */}
-          <motion.div 
+          <motion.div
             className="flex flex-col sm:flex-row justify-center items-center space-y-2 sm:space-y-0 sm:space-x-8 mb-8 text-sm text-muted-foreground"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -191,12 +216,12 @@ const handlePayment = () => {
             </div>
             <div className="flex items-center space-x-2">
               <div className="w-2 h-2 bg-green-400 rounded-full"></div>
-              <span className="text-center">₹50L+ Revenue Generated</span>
+              <span className="text-center">$50k+ Revenue Generated</span>
             </div>
           </motion.div>
 
           {/* Main Headline */}
-          <motion.h1 
+          <motion.h1
             className="text-3xl sm:text-5xl lg:text-7xl font-black mb-6 leading-tight"
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
@@ -204,24 +229,24 @@ const handlePayment = () => {
             data-testid="hero-headline"
           >
             Turn Your Social Media Into a<br className="hidden sm:block" />
-            <span className="block sm:inline"><span className="text-gradient">₹1 Lakh+/Month</span> Business</span>
+            <span className="block sm:inline"><span className="text-gradient">$1,000+/Month</span> Business</span>
           </motion.h1>
 
           {/* Subheadline */}
-          <motion.p 
+          <motion.p
             className="text-lg sm:text-xl lg:text-2xl text-muted-foreground mb-8 max-w-4xl mx-auto px-4 sm:px-0"
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.3 }}
             data-testid="hero-subtitle"
           >Turn Your Social Media Into a
-          ₹1 Lakh+/Month Business
-          The exact automation system that helped 5,000+ entrepreneurs build
+            $1,000+/Month Business
+            The exact automation system that helped 5,000+ entrepreneurs build
             The exact automation system that helped 5,000+ entrepreneurs build profitable online businesses. Complete setup in 24 hours, results guaranteed in 90 days.
           </motion.p>
 
           {/* Price Comparison */}
-          <motion.div 
+          <motion.div
             className="flex flex-col sm:flex-row items-center justify-center space-y-4 sm:space-y-0 sm:space-x-4 mb-8"
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
@@ -229,29 +254,29 @@ const handlePayment = () => {
             data-testid="price-comparison"
           >
             <div className="text-center">
-              <div className="text-xl sm:text-2xl text-muted-foreground line-through">₹2,999</div>
+              <div className="text-xl sm:text-2xl text-muted-foreground line-through">$25</div>
               <div className="text-sm text-muted-foreground">Regular Price</div>
             </div>
             <ArrowRight className="w-6 h-6 sm:w-8 sm:h-8 text-muted-foreground rotate-90 sm:rotate-0" />
             <div className="text-center glass-card p-4 sm:p-6 rounded-xl glow-primary">
-              <div className="text-4xl sm:text-5xl font-black text-gradient">₹399</div>
-              <div className="text-sm text-green-400 font-semibold">87% OFF TODAY</div>
+              <div className="text-4xl sm:text-5xl font-black text-gradient">$15</div>
+              <div className="text-sm text-green-400 font-semibold">40% OFF TODAY</div>
             </div>
           </motion.div>
 
           {/* Main CTA */}
-          <motion.div 
+          <motion.div
             className="space-y-4"
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.7 }}
           >
-            <Button 
+            <Button
               className="gradient-primary text-white px-8 sm:px-12 py-3 sm:py-4 text-lg sm:text-xl font-bold hover-glow transform transition-all duration-300 hover:scale-105 w-full sm:w-auto max-w-sm sm:max-w-none"
               data-testid="hero-cta"
               onClick={handlePayment}
             >
-              💰 Get ₹399 Package Now!
+              💰 Get $15 Package Now!
             </Button>
             <div className="flex flex-col sm:flex-row items-center justify-center space-y-2 sm:space-y-0 sm:space-x-6 text-sm text-muted-foreground">
               <div className="flex items-center space-x-2">
@@ -288,7 +313,7 @@ const handlePayment = () => {
       {/* Features Grid */}
       <section id="features" className="py-20 px-4 sm:px-6 lg:px-8">
         <div className="max-w-7xl mx-auto">
-          <motion.div 
+          <motion.div
             className="text-center mb-16"
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -299,7 +324,7 @@ const handlePayment = () => {
               The Complete <span className="text-gradient">Business-in-a-Box</span> Solution
             </h2>
             <p className="text-lg sm:text-xl text-muted-foreground max-w-4xl mx-auto px-4 sm:px-0">
-              Everything successful entrepreneurs use to build ₹1+ lakh monthly businesses. No guesswork, no trial and error – just the proven system that works.
+              Everything successful entrepreneurs use to build $1,000+ monthly businesses. No guesswork, no trial and error – just the proven system that works.
             </p>
           </motion.div>
 
@@ -332,7 +357,7 @@ const handlePayment = () => {
       {/* Social Proof / Testimonials */}
       <section id="testimonials" className="py-20 px-4 sm:px-6 lg:px-8">
         <div className="max-w-7xl mx-auto">
-          <motion.div 
+          <motion.div
             className="text-center mb-16"
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -342,7 +367,7 @@ const handlePayment = () => {
             <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black mb-6 px-4 sm:px-0" data-testid="testimonials-title">
               Real Results From <span className="text-gradient">Real People</span>
             </h2>
-            <p className="text-lg sm:text-xl text-muted-foreground mb-4 px-4 sm:px-0">5,000+ entrepreneurs earning ₹1+ lakh monthly with our system</p>
+            <p className="text-lg sm:text-xl text-muted-foreground mb-4 px-4 sm:px-0">5,000+ entrepreneurs earning $1,000+ monthly with our system</p>
             <div className="inline-flex items-center space-x-2 glass-card px-4 py-2 rounded-full">
               <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
               <span className="text-sm text-green-400 font-semibold">All results independently verified</span>
@@ -366,11 +391,11 @@ const handlePayment = () => {
               Get Everything For Less Than <span className="text-gradient">One Day's Earnings</span>
             </h2>
             <p className="text-lg sm:text-xl text-muted-foreground mb-8 px-4 sm:px-0">Pay once, earn forever. Our customers typically recover this investment in their first week.</p>
-            
+
             <div className="glass-card p-6 rounded-lg mb-16 max-w-2xl mx-auto">
               <div className="text-center">
                 <div className="text-lg font-semibold text-green-400 mb-2">⚡ What Others Are Saying Right Now:</div>
-                <div className="text-muted-foreground text-sm">"Made ₹15,000 in my first month alone" - Rahul M.</div>
+                <div className="text-muted-foreground text-sm">"Made $500 in my first month alone" - Rahul M.</div>
                 <div className="text-muted-foreground text-sm">"ROI was 3800% in 90 days" - Sneha K.</div>
                 <div className="text-muted-foreground text-sm">"Quit my job after 6 months" - Amit P.</div>
               </div>
@@ -381,11 +406,11 @@ const handlePayment = () => {
                 <div className="text-center mb-6 sm:mb-8">
                   <h3 className="text-xl sm:text-2xl font-bold mb-4">Complete Automation Package</h3>
                   <div className="flex flex-col sm:flex-row items-center justify-center space-y-2 sm:space-y-0 sm:space-x-4 mb-6">
-                    <span className="text-2xl sm:text-3xl text-muted-foreground line-through">₹2,999</span>
-                    <span className="text-5xl sm:text-6xl font-black text-gradient">₹399</span>
+                    <span className="text-2xl sm:text-3xl text-muted-foreground line-through">$25</span>
+                    <span className="text-5xl sm:text-6xl font-black text-gradient">$15</span>
                   </div>
                   <Badge className="bg-green-500/20 text-green-400 mb-6">
-                    Save ₹2,600 (87% OFF)
+                    Save $10 (40% OFF)
                   </Badge>
                 </div>
 
@@ -417,7 +442,7 @@ const handlePayment = () => {
                   <div className="text-left border-t border-green-500/20 pt-4">
                     <h4 className="font-semibold mb-3 text-yellow-400">🛡️ Risk-Free Guarantee:</h4>
                     <ul className="space-y-2 text-sm text-muted-foreground ml-4">
-                
+
                     </ul>
                   </div>
                 </div>
@@ -425,12 +450,12 @@ const handlePayment = () => {
                 <div className="bg-gradient-to-r from-green-500/10 to-blue-500/10 p-4 rounded-lg mb-6">
                   <div className="text-center">
                     <div className="text-sm text-green-400 font-semibold mb-2">🎯 SUCCESS GUARANTEE</div>
-                    <div className="text-xs text-muted-foreground">Make your investment back within 7 days or get 100% refund + ₹5,000 for your time</div>
+                    <div className="text-xs text-muted-foreground">Make your investment back within 7 days or get 100% refund + $50 for your time</div>
                   </div>
                 </div>
 
-                <Button className="w-full gradient-primary text-white py-3 sm:py-4 text-lg sm:text-xl font-bold hover-glow transform transition-all duration-300 hover:scale-105 mb-4" data-testid="pricing-cta"  onClick={handlePayment}>
-                  💰 Get Complete System For ₹399
+                <Button className="w-full gradient-primary text-white py-3 sm:py-4 text-lg sm:text-xl font-bold hover-glow transform transition-all duration-300 hover:scale-105 mb-4" data-testid="pricing-cta" onClick={handlePayment}>
+                  💰 Get Complete System For $15
                 </Button>
 
                 <div className="text-center mb-4">
@@ -451,7 +476,7 @@ const handlePayment = () => {
       {/* FAQ Section */}
       <section id="faq" className="py-20 px-4 sm:px-6 lg:px-8">
         <div className="max-w-4xl mx-auto">
-          <motion.div 
+          <motion.div
             className="text-center mb-16"
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -461,7 +486,7 @@ const handlePayment = () => {
             <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black mb-6 px-4 sm:px-0" data-testid="faq-title">
               Your Questions <span className="text-gradient">Answered</span>
             </h2>
-            <p className="text-lg sm:text-xl text-muted-foreground mb-4 px-4 sm:px-0">Real questions from real users who are now earning ₹1+ lakh monthly</p>
+            <p className="text-lg sm:text-xl text-muted-foreground mb-4 px-4 sm:px-0">Real questions from real users who are now earning $1,000+ monthly</p>
             <div className="inline-flex items-center space-x-2 glass-card px-4 py-2 rounded-full mb-8">
               <div className="w-2 h-2 bg-blue-400 rounded-full"></div>
               <span className="text-sm text-blue-400 font-semibold">Still have questions? Get instant answers on WhatsApp</span>
@@ -484,27 +509,27 @@ const handlePayment = () => {
             <Card className="glass-card p-12" data-testid="final-cta">
               <CardContent className="p-0">
                 <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black mb-6 px-4 sm:px-0">
-                  Last Chance: <span className="text-gradient">₹399 Price</span> Expires Tonight
+                  Last Chance: <span className="text-gradient">$15 Price</span> Expires Tonight
                 </h2>
                 <p className="text-xl text-muted-foreground mb-4">
-                  5,000+ entrepreneurs are already using this system to earn ₹1+ lakh monthly. The question is: will you be next?
+                  5,000+ entrepreneurs are already using this system to earn $1,000+ monthly. The question is: will you be next?
                 </p>
                 <div className="glass-card p-4 rounded-lg mb-8 max-w-xl mx-auto">
                   <div className="text-center">
                     <div className="text-sm text-red-400 font-semibold mb-2">⚠️ PRICE INCREASE ALERT</div>
-                    <div className="text-xs text-muted-foreground">After tonight, this package will cost ₹2,999. Secure your ₹399 access now.</div>
+                    <div className="text-xs text-muted-foreground">After tonight, this package will cost $25. Secure your $15 access now.</div>
                   </div>
                 </div>
 
                 <div className="flex items-center justify-center space-x-4 mb-8">
                   <div className="text-center">
-                    <div className="text-2xl text-muted-foreground line-through">₹2,999</div>
+                    <div className="text-2xl text-muted-foreground line-through">$25</div>
                     <div className="text-sm text-muted-foreground">Regular Price</div>
                   </div>
                   <ArrowRight className="w-8 h-8 text-muted-foreground" />
                   <div className="text-center glass-card p-6 rounded-xl glow-primary">
-                    <div className="text-5xl font-black text-gradient">₹399</div>
-                    <div className="text-sm text-green-400 font-semibold">87% OFF TODAY</div>
+                    <div className="text-5xl font-black text-gradient">$15</div>
+                    <div className="text-sm text-green-400 font-semibold">40% OFF TODAY</div>
                   </div>
                 </div>
 
@@ -512,7 +537,7 @@ const handlePayment = () => {
                   <span className="flex flex-col sm:flex-row items-center gap-1 sm:gap-2">
                     <span className="flex items-center gap-2">
                       <span>🚀</span>
-                      <span>Secure My ₹399 Spot Now</span>
+                      <span>Secure My $15 Spot Now</span>
                     </span>
                     <span className="text-xs sm:text-sm opacity-90"></span>
                   </span>
@@ -521,7 +546,7 @@ const handlePayment = () => {
                 <div className="flex flex-col sm:flex-row items-center justify-center space-y-2 sm:space-y-0 sm:space-x-8 text-sm text-muted-foreground mb-4">
                   <div className="flex items-center space-x-2">
                     <Shield className="w-4 h-4 text-green-400" />
-                    <span>90-Day Money Back + ₹5K</span>
+                    <span>90-Day Money Back + $50</span>
                   </div>
                   <div className="flex items-center space-x-2">
                     <Zap className="w-4 h-4 text-yellow-400" />
@@ -533,7 +558,7 @@ const handlePayment = () => {
                   </div>
                 </div>
                 <div className="text-center text-xs text-red-400 font-semibold animate-pulse">
-                  ⏰ Timer: Price increases to ₹2,999 in 11 hours 47 minutes
+                  ⏰ Timer: Price increases to $25 in 11 hours 47 minutes
                 </div>
               </CardContent>
             </Card>
@@ -547,7 +572,7 @@ const handlePayment = () => {
           <div className="text-center">
             <div className="text-2xl font-bold text-gradient mb-4" data-testid="footer-logo">PinnaclePlus</div>
             <p className="text-muted-foreground mb-6">Transform your digital presence with automated growth solutions</p>
-            
+
             <div className="flex justify-center space-x-6 mb-8">
               <a href="#" className="text-muted-foreground hover:text-foreground transition-colors" data-testid="social-instagram">
                 <Instagram className="w-6 h-6" />
@@ -565,37 +590,37 @@ const handlePayment = () => {
 
             {/* Added Legal Links */}
             <div className="flex flex-wrap justify-center space-x-6 mb-6 text-sm">
-  <a 
-    href="/privacy" 
-    className="text-muted-foreground hover:text-foreground transition-colors" 
-    data-testid="footer-privacy"
-  >
-    Privacy Policy
-  </a>
-  <a 
-    href="/terms" 
-    className="text-muted-foreground hover:text-foreground transition-colors" 
-    data-testid="footer-terms"
-  >
-    Terms & Conditions
-  </a>
-  <a 
-    href="/returns" 
-    className="text-muted-foreground hover:text-foreground transition-colors" 
-    data-testid="footer-returns"
-  >
-    Returns Policy
-  </a>
-  <a 
-    href="/about" 
-    className="text-muted-foreground hover:text-foreground transition-colors" 
-    data-testid="footer-about"
-  >
-    About Us
-  </a>
-</div>
+              <Link
+                href="/privacy"
+                className="text-muted-foreground hover:text-foreground transition-colors cursor-pointer"
+                data-testid="footer-privacy"
+              >
+                Privacy Policy
+              </Link>
+              <Link
+                href="/terms"
+                className="text-muted-foreground hover:text-foreground transition-colors cursor-pointer"
+                data-testid="footer-terms"
+              >
+                Terms & Conditions
+              </Link>
+              <Link
+                href="/returns"
+                className="text-muted-foreground hover:text-foreground transition-colors cursor-pointer"
+                data-testid="footer-returns"
+              >
+                Returns Policy
+              </Link>
+              <Link
+                href="/about"
+                className="text-muted-foreground hover:text-foreground transition-colors cursor-pointer"
+                data-testid="footer-about"
+              >
+                About Us
+              </Link>
+            </div>
 
-            
+
             <div className="text-muted-foreground text-sm" data-testid="footer-copyright">
               © 2025 PinnaclePlus | Built with ❤️ by Vedant Chalke | All rights reserved
             </div>
@@ -605,25 +630,13 @@ const handlePayment = () => {
             {/* Business Info */}
             <div className="mt-10 max-w-2xl mx-auto text-left sm:text-center">
               <div className="glass-card border border-border/50 rounded-xl p-4 sm:p-6">
-                <h3 className="text-lg sm:text-xl font-bold mb-2">GADGET GLITZ</h3>
+                <h3 className="text-lg sm:text-xl font-bold mb-2">PinnaclePlus Inc.</h3>
                 <p className="text-sm text-muted-foreground mb-4">Mobile Accessories Store</p>
                 <p className="text-sm text-muted-foreground mb-4">Your trusted partner in digital transformation and social media automation</p>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-sm">
                   <div className="flex items-start space-x-2">
-                    <span role="img" aria-label="store">🏪</span>
-                    <span>Visit Our Store</span>
-                  </div>
-                  <div className="flex items-start space-x-2">
                     <span role="img" aria-label="address">📍</span>
-                    <span>31, Indra Market</span>
-                  </div>
-                  <div className="flex items-start space-x-2">
-                    <span role="img" aria-label="city">🏙️</span>
-                    <span>Jabalpur, Madhya Pradesh</span>
-                  </div>
-                  <div className="flex items-start space-x-2">
-                    <span role="img" aria-label="pincode">📮</span>
-                    <span>482001</span>
+                    <span>Based in India</span>
                   </div>
                 </div>
                 <div className="text-xs text-muted-foreground mt-3">Established business expanding into digital services</div>
@@ -633,7 +646,7 @@ const handlePayment = () => {
         </div>
       </footer>
 
-      
+
     </div>
   );
 }

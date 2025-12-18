@@ -21,7 +21,7 @@ export default function About() {
           transition={{ duration: 1 }}
         >
           We help entrepreneurs and creators automate their growth and turn their
-          social media presence into a ₹1 Lakh+/month business — using AI, strategy,
+          social media presence into a $1,500+/month business — using AI, strategy,
           and proven automation systems.
         </motion.p>
       </div>
@@ -47,12 +47,12 @@ export default function About() {
               viewport={{ once: true }}
             >
               PinnaclePlus was founded by a small team of creators, marketers, and
-              engineers under <strong>Gadget Glitz</strong> — a long-established
-              digital business based in Jabalpur, India.  
+              engineers under <strong>PinnaclePlus Inc.</strong> — a long-established
+              digital business based in San Francisco, CA.
               <br /><br />
               We realized most entrepreneurs spend endless hours creating, posting,
-              and analyzing content manually — instead of growing their brand.  
-              So we built a system that automates it all.  
+              and analyzing content manually — instead of growing their brand.
+              So we built a system that automates it all.
               Today, over <strong>5,000+ users</strong> trust PinnaclePlus to run their
               digital growth 24/7 while they focus on what truly matters — building
               their dream business.
@@ -168,15 +168,12 @@ export default function About() {
           <CardContent className="p-0 text-center">
             <h2 className="text-2xl font-bold mb-4 text-gradient">Our Business</h2>
             <p className="text-muted-foreground mb-6">
-              <strong>Gadget Glitz</strong> — Mobile Accessories Store  
+              <strong>PinnaclePlus Inc.</strong>
               <br />
               Registered business expanding into AI automation and digital growth systems.
             </p>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm text-muted-foreground max-w-xl mx-auto">
-              <div>🏪 Visit Our Store</div>
-              <div>📍 31, Indra Market</div>
-              <div>🏙️ Jabalpur, Madhya Pradesh</div>
-              <div>📮 482001</div>
+              <div>📍 Based in India</div>
             </div>
             <p className="text-xs text-muted-foreground mt-4">
               © 2025 PinnaclePlus | All Rights Reserved

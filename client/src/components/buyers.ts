@@ -1,11 +1,10 @@
 export const buyers = [
-    { name: "Aman", city: "Delhi" },
-    { name: "Priya", city: "Mumbai" },
-    { name: "Rohan", city: "Pune" },
-    { name: "Sneha", city: "Bangalore" },
-    { name: "Karan", city: "Hyderabad" },
-    { name: "Meera", city: "Chennai" },
-    { name: "Arjun", city: "Kolkata" },
-    { name: "Simran", city: "Jaipur" },
-  ];
-  
+  { name: "James", city: "New York" },
+  { name: "Sarah", city: "Los Angeles" },
+  { name: "Michael", city: "Chicago" },
+  { name: "Jessica", city: "Houston" },
+  { name: "David", city: "Phoenix" },
+  { name: "Emily", city: "Philadelphia" },
+  { name: "Daniel", city: "San Antonio" },
+  { name: "Ashley", city: "San Diego" },
+];

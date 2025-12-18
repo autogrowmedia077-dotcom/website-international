@@ -4,11 +4,11 @@ const ReturnsPolicy: React.FC = () => {
   return (
     <div className="container mx-auto px-4 py-12 text-white">
       <h1 className="text-4xl font-bold mb-6">Returns & Refund Policy</h1>
-      
+
       <p className="mb-6">
-        At <strong>PinnaclePlus</strong>, we stand behind the quality of our products and services. 
-        Whether you're purchasing digital automation tools, subscription plans, or physical accessories 
-        from our store, we want you to have complete confidence in your experience. 
+        At <strong>PinnaclePlus</strong>, we stand behind the quality of our products and services.
+        Whether you're purchasing digital automation tools, subscription plans, or physical accessories
+        from our store, we want you to have complete confidence in your experience.
         If you’re not fully satisfied, we’re here to help with simple, transparent return and refund options.
       </p>
 
@@ -46,8 +46,8 @@ const ReturnsPolicy: React.FC = () => {
 
       <h2 className="text-2xl font-semibold mt-8 mb-4">4. Refunds</h2>
       <p className="mb-4">
-        Approved refunds will be processed within <strong>5–7 business days</strong> of receipt of the returned item or confirmation of digital cancellation. 
-        The refund will be credited to your original payment method. 
+        Approved refunds will be processed within <strong>5–7 business days</strong> of receipt of the returned item or confirmation of digital cancellation.
+        The refund will be credited to your original payment method.
       </p>
       <p className="mb-6">
         Please note that your bank or payment provider may take additional time to reflect the refund in your account.
@@ -55,13 +55,13 @@ const ReturnsPolicy: React.FC = () => {
 
       <h2 className="text-2xl font-semibold mt-8 mb-4">5. Late or Missing Refunds</h2>
       <p className="mb-6">
-        If you haven’t received your refund after 10 business days, please first check with your bank or credit card company. 
+        If you haven’t received your refund after 10 business days, please first check with your bank or credit card company.
         If the issue persists, contact us at <a href="mailto:support@pinnacleplus.store" className="underline text-blue-400">support@pinnacleplus.store</a> and we’ll assist you immediately.
       </p>
 
       <h2 className="text-2xl font-semibold mt-8 mb-4">6. Exchanges</h2>
       <p className="mb-6">
-        We replace defective or damaged physical items free of charge. 
+        We replace defective or damaged physical items free of charge.
         If you need to exchange an item for the same one, send us an email and we’ll guide you through the process.
       </p>
 
@@ -69,7 +69,7 @@ const ReturnsPolicy: React.FC = () => {
       <p>
         For any questions about our return and refund process, please contact our friendly support team:<br />
         <strong>Email:</strong> support@pinnacleplus.store<br />
-        <strong>Business Address:</strong> 31, Indra Market, Jabalpur, Madhya Pradesh, 482001
+        <strong>Business Address:</strong> 123 Business Lane, Suite 100, San Francisco, CA 94105, United States
       </p>
     </div>
   );
